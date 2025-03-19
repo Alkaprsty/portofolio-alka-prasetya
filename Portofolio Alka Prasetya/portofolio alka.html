@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Questrial&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alka Prasetya - Portfolio</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #111;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Grid Background */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(100, 100, 100, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 100, 100, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            transform: perspective(500px) rotateX(30deg);
+            opacity: 0.7;
+        }
+
+        /* Page Container - Mobile First */
+        .page {
+            min-height: 100vh;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Page Indicator */
+        .page-indicator {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            color: black;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-indicator:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Headings - Mobile First */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Text Content */
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            max-width: 100%;
+        }
+
+        /* Photo Grid - Mobile First */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+
+        /* Photo Container */
+        .photo-container {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            transition: all 0.3s ease;
+        }
+
+        /* Photo Animation */
+        .photo-container:hover {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        /* Photo Styles */
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .photo-container:hover .photo {
+            filter: brightness(1.1);
+        }
+
+        /* Two Column Layout - Mobile First (single column) */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .two-column .bokek {
+            order: 2;
+        }
+
+        .two-column .potobokek {
+            order: 1;
+        }
+
+        /* Skills Section - Mobile First */
+        
+        .skills-center {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: none;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 15px white, 0 0 20px white;
+            color: white;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .skill1 {
+            display: block;
+        }
+
+        .skill2 {
+            display: none;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .skills-list {
+            list-style: none;
+        }
+
+        .skills-list li {
+            font-size: 1.1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        /* Tablet Styles (576px and up) */
+        @media (min-width: 576px) {
+            .page {
+                padding: 1.5rem;
+            }
+
+            .page-indicator{
+                display: inline-block;
+            }
+            
+            .two-column .bokek {
+            order: 1;
+        }
+
+
+        .skill1 {
+            display: none;
+        }
+
+        .skill2 {
+            display: block;
+        }
+
+        .two-column .potobokek {
+            order: 2;
+        }
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            h3 {
+                font-size: 1.7rem;
+            }
+            
+            p {
+                font-size: 1.05rem;
+            }
+            
+            .nav-dot {
+                width: 11px;
+                height: 11px;
+            }
+        }
+
+        /* Medium Screens (768px and up) */
+        @media (min-width: 768px) {
+            .page {
+                padding: 2rem;
+            }
+            
+            .two-column {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            h2 {
+                font-size: 2.5rem;
+            }
+            
+            h3 {
+                font-size: 2rem;
+            }
+            
+            p {
+                font-size: 1.1rem;
+                max-width: 90%;
+            }
+            
+            .skills-container > div:first-child {
+    text-align: left;
+    justify-self: start;
+}
+
+.skills-container > div:last-child {
+    text-align: right;
+    justify-self: end;
+}
+            .skills-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            
+            .skills-center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 3.5rem;
+            }
+        }
+        
+        
+
+        
+
+        /* Large Screens (992px and up) */
+        @media (min-width: 992px) {
+            .page {
+                max-width: 1200px;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            
+            h1 {
+                font-size: 4rem;
+            }
+            
+            h2 {
+                font-size: 3rem;
+            }
+            
+            h3 {
+                font-size: 2.2rem;
+            }
+            
+            p {
+                font-size: 1.15rem;
+                max-width: 800px;
+            }
+            
+            .nav-dot {
+                width: 12px;
+                height: 12px;
+                gap: 10px;
+            }
+            
+            .skills-center {
+                font-size: 4rem;
+            }
+        }
+
+        /* Extra Large Screens (1200px and up) */
+        @media (min-width: 1200px) {
+            .page {
+                max-width: 1400px;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            h1 {
+                font-size: 5rem;
+            }
+            
+            h2 {
+                font-size: 3.5rem;
+            }
+            
+            h3 {
+                font-size: 2.5rem;
+            }
+            
+            p {
+                font-size: 1.2rem;
+            }
+            
+            .skills-center {
+                font-size: 4.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid Background -->
+    <div class="grid-background"></div>
+
+    <!-- Navigation Dots -->
+    <div class="nav">
+        <div class="nav-dot active" onclick="scrollToPage(1)"></div>
+        <div class="nav-dot" onclick="scrollToPage(2)"></div>
+        <div class="nav-dot" onclick="scrollToPage(3)"></div>
+        <div class="nav-dot" onclick="scrollToPage(4)"></div>
+        <div class="nav-dot" onclick="scrollToPage(5)"></div>
+        <div class="nav-dot" onclick="scrollToPage(6)"></div>
+        <div class="nav-dot" onclick="scrollToPage(7)"></div>
+    </div>
+
+    <!-- Page 1: Portfolio Title -->
+    <section class="page" id="page1">
+        <h1>Portfolio</h1>
+        <h2>Alka Prasetya</h2>
+        <div class="page-indicator" onclick="goToNextPage(1)">Page 1</div>
+    </section>
+
+    <!-- Page 2: About -->
+    <section class="page" id="page2">
+        <div class="two-column">
+            <div    class="bokek">
+                <h2>hello!</h2>
+                <!-- .<h2>Hello</h2> -->
+                <h2>this page is all about me</h2>
+                <p>I'm Alka, Greetings from South Tangerang.
+                    I graduated from Kihajar Dewantara High School, and I've always been that person who's head over heels for music and anything creative. Seriously, if it involves design, art, or cool ideas I'm in.</p>
+                <p>I have a huge passion for the creative world, especially UI/UX design (and a million other things I can't stop exploring). I spent some time at Universitas Pamulang from 2018 to 2020, but, well... life had other plans. That didn't stop me from learning, though I'm all about diving into new skills, experimenting, and growing every day. Always curious, always creating.</p>
+                <div style="margin-top: 2rem;">
+                    <p>I started with landscape photography, then jumped into creative content production in 2020. Now, I'm a Field Account Consultant/Account Manager, mastering time and task management but creativity is still my thing!</p>
+                    <p>I've had awesome experiences as a stage photographer and in other creative roles. Plus, I'm great at communication and negotiation, and I connect with people easily.</p>
+                    <p>Business, creativity, or just good vibes. I'm always up for something new!</p>
+                </div>
+            </div>
+            <div    class="potobokek">
+                <div class="photo-container">
+                    <img src="./img/Portofolio Alka Prasetya (1).png" alt="Alka Prasetya" class="photo">
+                </div>
+            </div>
+        
+        </div>
+        <div class="page-indicator" onclick="goToNextPage(2)">Page 2</div>
+    </section>
+
+    <!-- Page 3: Kidzania Experience -->
+    <section class="page" id="page3">
+        <h2>PT. Aryan Indonesia (Kidzania Jakarta)</h2>
+        <p style="text-align: right; margin-bottom: 2rem;">Customer Service - 2018-2019</p>
+
+        <div class="photo-grid">
+            <div class="photo-container">
+                <img src="./img/Kz.png" alt="Kidzania Experience 1" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/14.png" alt="Kidzania Experience 2" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/15.png" alt="Kidzania Experience 3" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/16.png" alt="Kidzania Experience 4" class="photo">
+            </div>
+        </div>
+
+        <p>As a Customer Service Hero at KidZania, my mission is to make every child's visit an epic adventure!</p>
+        <p>From soaring the skies as a pilot to saving the day as a firefighter, I help young explorers dive into exciting real world jobs kids sized!</p>
+        <p>Here's what I do:</p>
+        <p>Bring the magic to life! I guide kids through their dream jobs, whether they're baking delicious treats, keeping the city safe, or even reporting the news. Make learning fun! I help kids understand teamwork, responsibility, and real-world skills through hands on play.</p>
+        <p>Be the ultimate tour guide! I assist parents and kids with everything they need directions, activity recommendations, and making sure their day is unforgettable. Keep the adventure safe & smooth! I ensure that every experience runs seamlessly, so kids can focus on having the time of their lives.</p>
+        <p>Every day at KidZania is full of laughter, excitement, and imagination because here, kids don't just play... they take over the world.</p>
+        
+        <div class="page-indicator" onclick="goToNextPage(3)">Page 3</div>
+    </section>
+
+    <!-- Page 4: BCA Finance Experience -->
+    <section class="page" id="page4">
+        <h2>PT. BCA Finance</h2>
+        <p style="text-align: right; margin-bottom: 2rem;">Field Account Consultant 2019 - 2023</p>
+
+        <div class="photo-grid">
+            <div class="photo-container">
+                <img src="./img/17.png" alt="BCA Finance Experience 1" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/19.png" alt="BCA Finance Experience 2" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/18.png" alt="BCA Finance Experience 3" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/20.png" alt="BCA Finance Experience 4" class="photo">
+            </div>
+        </div>
+
+        <p>Starting from November 2019. Me, officially worked as a Field Account Consultant at BCA Finance.</p>
+        <p>I remember the second month I went to work, I immediately got a target for car withdrawals. But it's not just car recalls that I do, my jobdesk is also to validate the consumer's address with the data provided by management. I have once achieved a target for 5 months in a row.</p>
+        <p>After 2 years as a Field Man, I finally got a promotion in 2021 as a field person coordinator, or field account consultant coordinator. The job is the same, the difference is that I only follow up customers from the office and looking for win-win solution between customers and the company. In this company, I've learned many things, for examples I have grow up in negotiations skill, persuasive communication. It also includes taking consumer data provided by the head office to be input back into the app. Like wise with targets, I also have to meet branch and team targets, as well as individual targets. But everything went fine until in the end I decided not to renew my contract in 2023. That was enough for me to work for 4 years at BCA Finance, a great experience!</p>
+        
+        <div class="page-indicator" onclick="goToNextPage(4)">Page 4</div>
+    </section>
+
+    <!-- Page 5: Rakhasa Artha Wisesa Experience -->
+    <section class="page" id="page5">
+        <h2>PT. Rakhasa Artha Wisesa</h2>
+        <p style="text-align: right; margin-bottom: 2rem;">Scrum Master, Content Creator 2024 - Present</p>
+
+        <div class="photo-grid">
+            <div class="photo-container">
+                <img src="./img/12.png" alt="Rakhasa Experience 1" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/10.png" alt="Rakhasa Experience 2" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/8.png" alt="Rakhasa Experience 3" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/11.png" alt="Rakhasa Experience 4" class="photo">
+            </div>
+            <div class="photo-container">
+                <img src="./img/13.png" alt="Rakhasa Experience 5" class="photo">
+            </div>
+        
+        </div>
+
+        <p>At Rakhasa Artha Wisesa, I wore two awesome hats one as a Scrum Master, keeping projects running like a well oiled machine, and the other as a Content Creator, crafting engaging content to boost the brand's presence!</p>
+        <p>As a Scrum Master, I was basically the team's biggest cheerleader and problem-solver. I ran daily stand ups, sprint planning, and retrospectives making sure everyone was aligned, obstacles were tackled, and work got done smoothly. Think of me as the glue that held the Agile process together while keeping things fun and productive!</p>
+        <p>On the flip side, as a Content Creator, I tapped into my creative side developing exciting content, writing compelling stories, and designing visuals that captured attention. From brainstorming viral worthy ideas to crafting posts that sparked engagement, I made sure the brand's voice stood out in the digital crowd. Balancing both roles kept me on my toes, but that's what made it exciting! One moment I was strategizing workflows, and the next, It was a thrilling ride of agility and creativity, and I loved every second of it!</p>
+        <p>But sometimes, when the moment called for it, I switched roles and became talent whether for videos, campaigns, or content that needed a human touch. Whether it was speaking on camera, hosting, or just adding that extra personality to our projects, I embraced the spotlight when needed! Juggling all these roles was a wild but fun ride mixing strategy, creativity, and a bit of on screen action!</p>
+        
+        <div class="page-indicator" onclick="goToNextPage(5)">Page 5</div>
+    </section>
+
+    <!-- Page 6: Skills -->
+    <section class="page" id="page6">
+        <div class="skills-container">
+            <div class="skills-center skill1">Skills</div>
+            <div>
+                <h3>Expertise Skills</h3>
+                <ul class="skills-list">
+                    <li>Music Produce & Writing Lyrics</li>
+                    <li>Photography</li>
+                    <li>Video Production</li>
+                    <li>Editing</li>
+                    <li>Drone Pilot</li>
+                    <li>Social Media Content</li>
+                    <li>Agile</li>
+                    <li>Sprint Planning</li>
+                    <li>Negotiations</li>
+                    <li>Team Support</li>
+                </ul>
+            </div>
+            <div class="skills-center skill2">Skills</div>
+            <div>
+                <h3>Software Skills</h3>
+                <ul class="skills-list">
+                    <li>Ableton - Cubase</li>
+                    <li>Fruity Loops</li>
+                    <li>Canva - Figma</li>
+                    <li>Premiere Pro</li>
+                    <li>Microsoft Office</li>
+                    <li>Lightroom - Capcut</li>
+                    <li>Lark Suite</li>
+                    <li>Taiga</li>
+                    <li>Vscode</li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="page-indicator" onclick="goToNextPage(6)">Page 6</div>
+    </section>
+
+    <!-- Page 7: Thank You -->
+    <section class="page" id="page7">
+        <h1>Thank You</h1>
+        <p style="font-size: 1.5rem;">feel free to drop message at <span style="font-style: italic;">alkaprsty@gmail.com</span></p>
+        <p style="font-size: 1.5rem;">or hit me up at <span style="font-style: italic;">+6285158322179 | +62 898-9956-491</span></p>
+        <div class="page-indicator" onclick="goToNextPage(7)">Page 7</div>
+    </section>
+
+    <script>
+        // Smooth scrolling to pages
+        function scrollToPage(pageNumber) {
+            const page = document.getElementById(`page${pageNumber}`);
+            window.scrollTo({
+                top: page.offsetTop,
+                behavior: 'smooth'
+            });
+            
+            // Update active nav dot
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                if (index === pageNumber - 1) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Go to next page when page indicator is clicked
+        function goToNextPage(currentPage) {
+            const totalPages = 7;
+            const nextPage = currentPage < totalPages ? currentPage + 1 : 1;
+            scrollToPage(nextPage);
+        }
+
+        // Update active nav dot on scroll
+        window.addEventListener('scroll', function() {
+            const pages = document.querySelectorAll('.page');
+            const dots = document.querySelectorAll('.nav-dot');
+            
+            pages.forEach((page, index) => {
+                const rect = page.getBoundingClientRect();
+                if (rect.top >= -window.innerHeight/2 && rect.top <= window.innerHeight/2) {
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    dots[index].classList.add('active');
+                }
+            });
+        });
+
+        // Add animation to grid background
+        document.addEventListener('mousemove', function(e) {
+            const grid = document.querySelector('.grid-background');
+            const x = e.clientX / window.innerWidth - 0.5;
+            const y = e.clientY / window.innerHeight - 0.5;
+            
+            grid.style.transform = `perspective(500px) rotateX(${30 + y * 5}deg) rotateY(${x * 5}deg)`;
+        });
+    </script>
+</body>
+</html>
